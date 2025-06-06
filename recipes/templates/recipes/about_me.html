@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>About Me</title>
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}" />
+    <script src="{% static 'recipes/home.js' %}" defer></script>
+</head>
+<body class="no-bg-image">
+    <nav class="navbar">
+        <div class="brand">Eating with Kindness</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{% url 'recipes_home' %}">Home</a></li>
+            <li><a href="{% url 'recipe_list' %}">Recipes</a></li>
+            <li><a href="{% url 'ingredient_search' %}">Search</a></li>
+            <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
+            <li><a href="{% url 'about_me' %}">About Me</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="content detail-wrapper">
+        <h2 class="page-title">About Me</h2>
+        <section class="about-me-detail">
+            <article class="description">
+                <p>
+                    Alex Lindsay is a game producer transitioning to web development, eager to gain real-world engineering
+                    experience and expand expertise in front-end and back-end technologies. He is passionate
+                    about building intuitive, user-friendly applications and contributing to collaborative
+                    development teams while growing into a full-time software engineering role.
+                </p>
+            </article>
+
+            <nav class="about-me-info">
+                <a href="https://lorondo.github.io/portfolio-website/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+                <a href="https://www.linkedin.com/in/alex-lindsay-8097a755" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/lorondo" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </nav>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logout</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #FFF7D9;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .logout-container {
+      background-color: #FAF9F5;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(130, 148, 97, 0.2);
+      text-align: center;
+    }
+
+    h1, h2 {
+      color: #829461;
+      margin-bottom: 1rem;
+    }
+
+    .logout-button {
+      background-color: #829461;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s ease;
+    }
+
+    .logout-button:hover {
+      background-color: #9C5273;
+    }
+  </style>
+</head>
+<body>
+  <div class="logout-container">
+    <h1>You’ve successfully logged out.</h1>
+    <h2>Want to log back in?</h2>
+    <a href="{% url 'login' %}" class="logout-button">Login</a>
+  </div>
+</body>
+</html>

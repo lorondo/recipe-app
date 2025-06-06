@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ object.name }} - Recipe Details</title>
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+    <script src="{% static 'recipes/home.js' %}" defer></script>
+</head>
+<h1 class="page-title">Search Recipes by Ingredient</h1>
+
+<nav class="navbar">
+  <div class="brand">Eating with Kindness</div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <ul class="nav-links" id="navLinks">
+      <li><a href="{% url 'recipes_home' %}">Home</a></li>
+      <li><a href="{% url 'recipe_list' %}">Recipes</a></li>
+      <li><a href="{% url 'ingredient_search' %}">Search</a></li>
+      <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
+      <li><a href="{% url 'about_me' %}">About Me</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="search-wrapper">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form }}
+    </div>
+    <button type="submit" class="search-button">Search</button>
+  </form>
+
+  {% if ingredients_df %}
+    <div class="results">
+      {{ ingredients_df|safe }}
+      <div class="chart">
+        <img src="data:image/png;base64, {{ chart|safe }}" alt="Chart">
+      </div>
+    </div>
+  {% else %}
+    <p class="no-data">No results to display</p>
+  {% endif %}
+</div>

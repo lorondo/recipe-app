@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ object.name }} - Recipe Details</title>
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+    <script src="{% static 'recipes/home.js' %}" defer></script>
+</head>
+<body class="no-bg-image">
+    <nav class="navbar">
+        <div class="brand">Eating with Kindness</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{% url 'recipes_home' %}">Home</a></li>
+            <li><a href="{% url 'recipe_list' %}">Recipes</a></li>
+            <li><a href="{% url 'ingredient_search' %}">Search</a></li>
+            <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
+            <li><a href="{% url 'about_me' %}">About Me</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="content detail-wrapper">
+        <h2 class="page-title">{{ object.name }}</h2>
+        
+        <div class="recipe-detail">
+            <div class="recipe-image">
+                <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
+            </div>
+            <div class="recipe-info">
+                <p><strong>Recipe:</strong> {{ object.name }}</p>
+                <p><strong>Ingredients:</strong> {{ object.ingredients }}</p>
+                <p><strong>Cooking Time:</strong> {{ object.cooking_time }} minutes</p>
+                <p><strong>Difficulty:</strong> {{ object.difficulty }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

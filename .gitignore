@@ -1,0 +1,7 @@
+recipe_project/settings.py
+
+# Text backup files
+*.bak
+
+# Database
+*.sqlite3

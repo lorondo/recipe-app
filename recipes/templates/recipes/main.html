@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+    <script src="{% static 'recipes/home.js' %}" defer></script>
+</head>
+<body class="no-bg-image">
+<h1 class="page-title">Recipes</h1>
+<nav class="navbar">
+    <div class="brand">Eating with Kindness</div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="{% url 'recipes_home' %}">Home</a></li>
+        <li><a href="{% url 'recipe_list' %}">Recipes</a></li>
+        <li><a href="{% url 'ingredient_search' %}">Search</a></li>
+        <li><a href="{% url 'add_recipe' %}">Add Recipe</a></li>
+        <li><a href="{% url 'about_me' %}">About Me</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</nav>
+<div class="table-wrapper">
+    <table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for object in object_list %}
+        <tr>
+            <td>
+            <a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
+            </td>
+            <td>
+            <img src="{{ object.pic.url }}" width="150" height="200" alt="{{ object.name }}">
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+</div>
+</body>
+</html>
+
