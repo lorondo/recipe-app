@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
     <script src="{% static 'recipes/home.js' %}" defer></script>
 </head>
-<body>
+<body class="no-bg-image">
     <nav class="navbar">
         <div class="brand">Eating with Kindness</div>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <li><a href="{% url 'recipes_home' %}">Home</a></li>
             <li><a href="{% url 'recipe_list' %}">Recipes</a></li>
             <li><a href="{% url 'ingredient_search' %}">Search</a></li>
