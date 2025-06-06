@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView
 from .models import Recipe
-#to protect class-based view
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .forms import IngredientsSearchForm, RecipeForm
@@ -10,76 +9,53 @@ from .utils import get_chart
 
 @login_required
 def home(request):
-   return render(request, 'recipes/recipes_home.html')
+    """
+    View for the homepage. Renders a basic template for authenticated users.
+    """
+    return render(request, 'recipes/recipes_home.html')
 
-#define function-based view - ingredient_search()
+
 @login_required
 def ingredient_search(request):
+    """
+    View to handle ingredient search via form POST.
+    Filters recipes by ingredient keyword and displays a chart of matched vs total.
+    Converts matched recipes to a DataFrame for table rendering in the template.
+    """
     form = IngredientsSearchForm(request.POST or None)
-    ingredients_df=None #initialize dataframe to None
-    chart=None
+    ingredients_df = None  # DataFrame for displaying results in HTML table
+    chart = None  # Base64 chart image (bar or pie)
 
-    #check if the button is clicked
-    if request.method =='POST':
-        #read ingredient_name
+    if request.method == 'POST':
         ingredient_name = request.POST.get('ingredient_name')
         chart_type = request.POST.get('chart_type')
 
-        #apply filter to extract data
-        qs =Recipe.objects.filter(ingredients__icontains=ingredient_name)
+        # Filter recipes containing the ingredient (case-insensitive match)
+        qs = Recipe.objects.filter(ingredients__icontains=ingredient_name)
         total_recipes = Recipe.objects.count()
         matched_recipes = qs.count()
 
+        # Data for chart visualization
         chart_data = pd.DataFrame({
-            'category': ['Total Recipes', 'Recipes With Ingredient'],
+            'category': ['Total Recipes', 'Recipes with Ingredient'],
             'count': [total_recipes, matched_recipes]
-            })
+        })
 
-        if matched_recipes > 0: #if data found
-            df = pd.DataFrame(qs.values('recipe_id', 'name', 'ingredients', 'cooking_time', 'difficulty'))
+        if matched_recipes > 0:
+            df = pd.DataFrame(qs.values(
+                'recipe_id', 'name', 'ingredients', 'cooking_time', 'difficulty'
+            ))
+
+            # Link each recipe name to its detail page
             df['name'] = df.apply(
                 lambda row: f'<a href="/list/{row["recipe_id"]}">{row["name"]}</a>',
                 axis=1
             )
 
-            chart_data = pd.DataFrame({
-                'category': ['Total Recipes', 'Recipes with Ingredient'],
-                'count': [total_recipes, matched_recipes]
-            })
+            chart = get_chart(chart_type, chart_data)
+            ingredients_df = df.to_html(escape=False, index=False)
 
-            #call get_chart by passing chart_type from user input, sales dataframe and labels
-            chart=get_chart(chart_type, chart_data)
-
-            #convert the dataframe to HTML
-            ingredients_df=df.to_html(escape=False, index=False)
-        else:
-            ingredients_df = None
-        
-        #display in terminal - for testing and dev only
-        '''
-        print (ingredient_name)
-
-        print ('Exploring querysets:')
-        print ('Case 1: Output of Recipe.objects.all()')
-        qs=Recipe.objects.all()
-        print (qs)
-
-        print ('Case 2: Output of Recipe.objects.filter(ingredients__icontains=ingredient_name)')
-        qs =Recipe.objects.filter(ingredients__icontains=ingredient_name)
-        print (qs)
-
-        print ('Case 3: Output of qs.values')
-        print (qs.values())
-
-        print ('Case 4: Output of qs.values_list()')
-        print (qs.values_list())
-
-        print ('Case 5: Output of Recipe.objects.get(id=1)')
-        obj = Recipe.objects.get(recipe_id=1)
-        print (obj)
-        '''
-
-    context={
+    context = {
         'form': form,
         'ingredients_df': ingredients_df,
         'chart': chart,
@@ -87,27 +63,45 @@ def ingredient_search(request):
 
     return render(request, 'recipes/records.html', context)
 
+
 @login_required
 def add_recipe_view(request):
+    """
+    View to handle creation of new recipes via RecipeForm.
+    Accepts both form data and uploaded image file.
+    Redirects to recipe list on successful submission.
+    """
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('recipe_list')
-    else: 
+    else:
         form = RecipeForm()
-        
+
     return render(request, 'recipes/add_recipe.html', {'form': form})
 
-# Create your views here.
+
+# ---------- Class-based views ----------
 
 class RecipeListView(LoginRequiredMixin, ListView):
+    """
+    View to list all recipes for logged-in users.
+    """
     model = Recipe
     template_name = 'recipes/main.html'
 
+
 class RecipeDetailView(LoginRequiredMixin, DetailView):
+    """
+    View to show detailed information for a specific recipe.
+    """
     model = Recipe
     template_name = 'recipes/detail.html'
 
+
 class AboutView(LoginRequiredMixin, TemplateView):
+    """
+    View to render the 'About Me' page.
+    """
     template_name = 'recipes/about_me.html'
