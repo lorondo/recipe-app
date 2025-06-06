@@ -50,7 +50,6 @@ Eating with Kindness is a simple and soothing recipe web application built with 
 ## Usage
 
 - Visit `http://127.0.0.1:8000/` in your browser to open the Home page.
-- Login with username "visitor" and password "test12345".
 - Use the navigation menu to explore Recipes, Search, About Me, and more.
 - Browse recipes, click on recipe titles to view details.
 - Use the ingredient search to find recipes containing specific ingredients.
