@@ -1,4 +1,4 @@
-recipe_project/settings.py
+recipeapp/settings.py
 
 # Text backup files
 *.bak
