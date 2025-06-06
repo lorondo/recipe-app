@@ -1,4 +1,4 @@
-# recipe-app
+# recipeapp
 # Recipe App - Eating with Kindness
 
 ## Overview
@@ -18,11 +18,11 @@ Eating with Kindness is a simple and soothing recipe web application built with 
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/lorondo/recipe-app.git
+    git clone https://github.com/lorondo/recipeapp.git
     ```
 2. Navigate to the project directory and create a virtual environment:
     ```bash
-    cd recipe-app
+    cd recipeapp
     python -m venv venv
     ```
 3. Activate the virtual environment:
