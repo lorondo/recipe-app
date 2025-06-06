@@ -6,10 +6,12 @@
     <meta charset="UTF-8">
     <title>Add a Recipe</title>
     <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+    <script src="{% static 'recipes/home.js' %}" defer></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="brand">Eating with Kindness</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
         <ul class="nav-links">
             <li><a href="{% url 'recipes_home' %}">Home</a></li>
             <li><a href="{% url 'recipe_list' %}">Recipes</a></li>
