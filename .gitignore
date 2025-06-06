@@ -5,3 +5,5 @@ recipeapp/settings.py
 
 # Database
 *.sqlite3
+
+staticfiles/
